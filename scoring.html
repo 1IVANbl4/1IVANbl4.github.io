@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+
+<html lang="utf-8">
+<head>
+	<meta charset="utf-8">
+	<title>Химия баллы</title>
+	<link rel="icon" sizes="48*48 " href= "FOTO/icon.png" type=”image/x-icon”./>
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+	<link rel='stylesheet' href='styles/scoring.css' type='text/css' media='all' />
+
+	<script defer src="https://pyscript.net/latest/pyscript.js"></script>
+
+</head>
+<div class="sas">
+<body>
+	<div id="itog" style="display: none;" class="itog">
+		<a>Итог по данным ответам :</a>
+		<br>
+		<a>Первичный балл : <f id="first"> 1</f></a>
+		<br>
+		<a>Вторичный балл : <f id="second"> 1</f></a>
+	</div>
+<div id="enter" class="enter">
+	<a id="exercise" class="exercise">   Eсли у вас нет ошибок в задании-нажмите 0  <br>
+						Если есть 1 ошибка — нажмите 1<br>
+						Если есть 2 ошибки — нажмите 2 <br>
+						И так далее<br><br>
+						</a>
+      <div>
+		<margin><h3>Задание № <f id="title-task"> 1</f> </h3></margin>
+		
+		  <div id="buttons"  style="display: none;">
+			  <button id="btn0" class= " button28 " type="submit" py-click="add_task('0')" style="height: 50px;width: 100%;display: block;">
+                0
+              </button >
+			  <br>
+			  <button id="btn1" class=" button28 " type="submit" py-click="add_task('1')" style="height: 50px;width: 100%;display: block;">
+                1
+              </button>
+			  <br>
+			  <button id="btn2" class="button28 " type="submit" py-click="add_task('2')" style="height: 50px;width: 100%;display: block;">
+                2
+              </button>
+			  <br>
+			  <button id="btn3" class=" button28" type="submit" py-click="add_task('3')" style="height: 50px;width: 100%;display: block;">
+                3
+              </button>
+			  <br>
+			  <button id="btn4" class=" button28"  type="submit" py-click="add_task('4')" style="height: 50px;width: 100%;display: block;">
+                4
+              </button>
+			  <br>
+			  <button id="btn5" class= "button28 " type="submit" py-click="add_task('5')" style="height: 50px;width: 100%;display: block;">
+                5
+              </button>
+			  <br>
+		  </div>
+	  </div>
+</div>
+
+	<div id="Result">
+    </div>
+
+<script>
+    function isPhone(){
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i
+			.test(navigator.userAgent)) {
+			return 1;
+		} else {
+			return 0;
+		}
+    }
+</script>
+
+<py-script>
+	import asyncio
+	import js
+	from js import document, FileReader, isPhone
+	from pyodide import create_proxy
+
+	results = Element("Result")
+	task_title = Element("title-task")
+
+	def show_btn(num : int):
+		for i in range(0,6):
+			name = "btn"+str(i)
+			Element(name).element.style = "height: 50px;width: 100%;display: none;"
+		for i in range(0,num+1):
+			name = "btn"+str(i)
+			Element(name).element.style = "height: 50px;width: 100%;display: block;"
+
+
+	def add_task(ans : str):
+		#меняю номер задания
+
+		task_title = Element("title-task")
+		name = int(task_title.element.innerText)
+
+		#добавляю ответы в лист с ответами
+		old = results.element.innerHTML
+		results.element.innerHTML = ""
+		results.element.innerHTML = create_result(str(name),ans) + old
+
+		#меняю номер задания
+		name = name+1
+		task_title.element.innerText = str(name)
+		check_btn()
+		check_exercise(name)
+
+
+	def check_exercise(num : int):
+		t29 = "(ОВР)<br>Если всё верно, нажмите 2<br>Если верно написана только реакция или только электронный баланс с указанием ок-ля и в-ля, нажмите 1<br>Если всё неверно, нажмите 0<br><br>"
+		t30 = "(РИО)<br>Если всё верно, нажмите 2<br>Если верно написана только реакция или только ионные уравнения, нажмите 1<br>Если всё неверно, нажмите 0<br><br>"
+		t31 = "(Неорг. цепочка - 4 реакции)<br>Укажите количество верно записанных и правильно уравненных реакций:<br><br>"
+		t32 = "(Орг. цепочка - 5 реакций)<br>Укажите количество верно записанных и правильно уравненных реакций:<br><br>"
+		t33 = "(Орг. задача)<br>Элементы ответа:<br>1)Произведены необходимые расчёты и найдена молекулярная формула вещества<br>2)Указана структурная формула вещества<br>3)Записана и правильно уравнена требуемая реакция<br>Введите число выполненных пунктов:<br><br>"
+		t34 = "(Неорг. задача)<br>Элементы ответа:<br>1)Правильно записаны и уравнены реакции<br>2)Правильно произведены вычиления, в которых используются физичекие величины, заданные в условии задачи<br>3)Показана логически обоснованная взаимосвязь физических величин, на основании которых проводятся расчёты<br>4)Определена искомая физическая величина<br>Введите число выполненных пунктов:<br><br>"
+
+		if num == 29:
+			Element("exercise").element.innerHTML = t29
+		elif num == 30:
+			Element("exercise").element.innerHTML = t30
+		elif num == 31:
+			Element("exercise").element.innerHTML = t31
+		elif num == 32:
+			Element("exercise").element.innerHTML = t32
+		elif num == 33:
+			Element("exercise").element.innerHTML = t33
+		elif num == 34:
+			Element("exercise").element.innerHTML = t34
+		else :
+			count_result()
+
+	def show_itog():
+		Element("itog").element.style = "display: block;"
+		Element("enter").element.style = "display: none;"
+
+	def create_result(num : str, answer : str) -> str:
+		answer_ = '<answer id="answer'+num+'">'+answer+"</answer>"
+		ret = '<p id="'+num+'" class="blocktext">'+"Задание номер : "+num+" | ответ : "+answer_+"</p>"
+		return ret
+
+	def get_answer(num : int) -> int:
+		name = "answer" + str(num)
+		return int( Element(name).element.innerText )
+
+	def add_task_event(e):
+		num = int(task_title.element.innerText)
+		first = [31,34]
+		for i in range(1,29):
+			first.append(i)
+
+		if num in first:
+			if int(e.key) in range(0,5):
+				add_task(e.key)
+		elif num == 32:
+			if int(e.key) in range(0,6):
+				add_task(e.key)
+		elif num == 33:
+			if int(e.key) in range(0,4):
+				add_task(e.key)
+		elif num in [29,30]:
+			if int(e.key) in range(0,3):
+				add_task(e.key)
+
+	def check_btn():
+		num = int(task_title.element.innerText)
+		first = [31,34]
+		for i in range(1,29):
+			first.append(i)
+
+		if num in first:
+			show_btn(4)
+		elif num == 32:
+			show_btn(5)
+		elif num == 33:
+			show_btn(3)
+		elif num in [29,30]:
+			show_btn(2)
+
+	def count_result():
+		summ1 = 0
+		summ2 = 0
+		t1b = []
+		t2b = []
+		for i in range(1,6):
+			t1b.append(get_answer(i))
+		for i in range(9,14):
+			t1b.append(get_answer(i))
+		for i in range(16,22):
+			t1b.append(get_answer(i))
+		for i in range(25,29):
+			t1b.append(get_answer(i))
+
+		for i in range(6,9):
+			t2b.append(get_answer(i))
+		for i in range(14,16):
+			t2b.append(get_answer(i))
+		for i in range(22,25):
+			t2b.append(get_answer(i))
+
+		for x in t1b:
+			if x < 1:
+				summ1 += 1
+		for x in t2b:
+			if (x == 0):
+				summ2 += 2
+			elif (x == 1):
+				summ2 += 1
+
+		perv = summ1 + summ2 + get_answer(29) + get_answer(30) + get_answer(31) + get_answer(32) + get_answer(33) + get_answer(34)
+
+		Element("first").element.innerText = str(perv)
+
+		vtorshkala = [0,4,7,10,14,17,20,23,27,30,33,36,38,39,40,42,43,44,46,47,48,49,51,52,53,55,56,57,58,60,61,62,64,65,66,68,69,70,71,73,74,75,77,78,79,80,82,84,86,88,90,91,93,95,97,99,100]
+
+		Element("second").element.innerText = str(vtorshkala[perv])
+
+		show_itog()
+
+	def main():
+		if bool(isPhone()):
+			Element("buttons").element.style = "display: block;"
+			check_btn()
+		file_event = create_proxy(add_task_event)
+		document.addEventListener("keydown", file_event)
+
+	main()
+</py-script>
+
+</body>
+</div>
+
+</html>
+                                                                                                             

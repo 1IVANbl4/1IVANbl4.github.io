@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,900&display=swap') ;
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@900&display=swap');
+
+html { height: 100%; }
+body {
+    height: 95%;
+    background-color: aliceblue;
+    background-image: url('../FOTO/cosmos.jpg');
+    background-attachment:fixed;
+    text-align: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+h1.title {
+    background-image: url('../FOTO/fondlyabukv.jpg');
+    filter: brightness(3);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-size: 100px;
+    font-family:  'Roboto', sans-serif;
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: rgb(250, 250, 250); ;
+}
+.custom-btn {
+    width: 250px;
+    height: 60px;
+    color: #fffbfb;
+    border-radius: 25px;
+    padding: 10px 25px;
+    font-family: 'Kanit', sans-serif;
+    font-weight: 500;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+    box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+    7px 7px 20px 0px rgba(0,0,0,.1),
+    4px 4px 5px 0px rgba(0,0,0,.1);
+    outline: none;
+}
+.btn-6 {
+    background: rgb(34, 7, 19);
+    background: radial-gradient(circle, rgb(84, 23, 92) 0%, rgb(66, 14, 54) 100%);
+    line-height: 42px;
+    padding: 0;
+    border: none;
+}
+.btn-6 span {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+.btn-6:before,
+.btn-6:after {
+    position: absolute;
+    content: "";
+    height: 0%;
+    width: 1px;
+    box-shadow:
+    -1px -1px 20px 0px rgba(255,255,255,1),
+    -4px -4px 5px 0px rgba(255,255,255,1),
+    7px 7px 20px 0px rgba(0,0,0,.4),
+    4px 4px 5px 0px rgba(0,0,0,.3);
+}
+.btn-6:before {
+    right: 0;
+    top: 0;
+    transition: all 500ms ease;
+}
+.btn-6:after {
+    left: 0;
+    bottom: 0;
+    transition: all 500ms ease;
+}
+.btn-6:hover{
+    background: transparent;
+    color: #571f4d;
+    box-shadow: none;
+}
+.btn-6:hover:before {
+    transition: all 500ms ease;
+    height: 100%;
+}
+.btn-6:hover:after {
+    transition: all 500ms ease;
+    height: 100%;
+}
+.btn-6 span:before,
+.btn-6 span:after {
+    position: absolute;
+    content: "";
+    box-shadow:
+    -1px -1px 20px 0px rgba(255,255,255,1),
+    -4px -4px 5px 0px rgba(255,255,255,1),
+    7px 7px 20px 0px rgba(0,0,0,.4),
+    4px 4px 5px 0px rgba(0,0,0,.3);
+}
+.btn-6 span:before {
+    left: 0;
+    top: 0;
+    width: 0%;
+    height: .5px;
+    transition: all 500ms ease;
+}
+.btn-6 span:after {
+    right: 0;
+    bottom: 0;
+    width: 0%;
+    height: .5px;
+    transition: all 500ms ease;
+}
+.btn-6 span:hover:before {
+    width: 100%;
+}
+.btn-6 span:hover:after {
+    width: 100%;
+}
+.main {
+    background-image: url('../FOTO/pinta.png');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: auto auto ;
+    display:table;
+    height:100%;
+    margin:0 auto;
+}
